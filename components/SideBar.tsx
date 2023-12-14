@@ -19,7 +19,7 @@ const routes=[
   },{
     label:"Conversation",
     icon:MessageSquare,
-    href:"/conversation ",
+    href:"/conversation",
     color:"text-violet-500",
   },{
     label:"Image Generation",
