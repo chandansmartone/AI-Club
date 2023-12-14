@@ -3,9 +3,13 @@ import OpenAI from "openai";
 import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import {NextResponse} from "next/server"
 
+const apiKey=process.env.API_KEY;
+console.log(apiKey);
+
 const openai = new OpenAI({
-  apiKey:"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",
-});
+    apiKey:apiKey,
+  });
+
 const instructionMessage: ChatCompletionMessageParam = {
   role: "system",
   content: "Answer questions as short and quickly as possible. You must do it under 75 tokens."
