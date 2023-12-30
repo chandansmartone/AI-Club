@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import FreeCounter from './FreeCounter';
 
 
 const montserrt=Montserrat({weight:"600",subsets:["latin"]})
@@ -51,8 +52,12 @@ const routes=[
   },
   
 ]
-
-const SideBar = () => {
+interface SidebarProps{
+  apiLimitCount:number;
+}
+const SideBar = ({
+  apiLimitCount
+}:SidebarProps) => {
 
   const pathname = usePathname();
  // @ts-ignore
@@ -88,7 +93,7 @@ const SideBar = () => {
         </div>
       </div>
 
-
+      <FreeCounter apiLimitCount={apiLimitCount}/>
       
     </div>
   )

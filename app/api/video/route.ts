@@ -30,20 +30,18 @@ export async function POST(
  
    
     const response = await replicate.run(
-      "meta/musicgen:b05b1dff1d8c6dc63d14b0cdb42135378dcb87f6373b0d3d341ede46e59e2b38",
-      {
-        input: {
-          model_version: "stereo-melody-large",
-          prompt:prompt
+        "anotherjesse/zeroscope-v2-xl:71996d331e8ede8ef7bd76eba9fae076d31792e4ddf4ad057779b443d6aea62f",
+        {
+          input: {
+            prompt,
+          }
         }
-      }
-    );
-
-    await increseApiLimit();
+      );
+      await increseApiLimit();
   
     return NextResponse.json(response);
   } catch (error) {
-    console.log('[MUSIC_ERROR]', error);
+    console.log('[Video_Error]', error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
