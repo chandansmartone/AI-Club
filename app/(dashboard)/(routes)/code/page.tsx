@@ -18,8 +18,10 @@ import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
 import ReactMarkdown from "react-markdown";
 import { Code2 } from "lucide-react";
+import { userProModel } from "@/hooks/use-pro-model";
 
 const Code = () => {
+  const ProModal=userProModel();
     const router = useRouter();
     const [messages,setMessages]=useState< OpenAI.Chat.CreateChatCompletionRequestMessage[]>([]);
 
@@ -46,7 +48,8 @@ const Code = () => {
           setMessages((current)=>[...current,userMessage,response.data]);
           form.reset();
         }catch(error:any){
-            console.log(error);
+          if(error?.response?.status===403)ProModal.onOpen();
+
             
         }finally{
             router.refresh();

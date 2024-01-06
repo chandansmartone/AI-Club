@@ -16,8 +16,10 @@ import { Empty } from "@/components/Empty";
 
 import { formSchema } from "./constants";
 import { FileAudio } from "lucide-react";
+import { userProModel } from "@/hooks/use-pro-model";
 
 const VideoPage = () => {
+  const ProModal=userProModel();
   const router = useRouter();
   const [video, setVideo] = useState<string>();
 
@@ -39,7 +41,8 @@ const VideoPage = () => {
       setVideo(response.data[0]);
       form.reset();
     } catch (error: any) {
-      console.log(error);
+      if(error?.response?.status===403)ProModal.onOpen();
+
       
     } finally {
       router.refresh();

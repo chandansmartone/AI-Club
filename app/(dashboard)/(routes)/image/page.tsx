@@ -19,8 +19,10 @@ import { Empty } from "@/components/Empty";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import { amountOptions, formSchema, resolutionOptions } from "./constans";
+import { userProModel } from "@/hooks/use-pro-model";
 
 const PhotoPage = () => {
+  const ProModal=userProModel();
   const router = useRouter();
   const [photos, setPhotos] = useState<string[]>([]);
 
@@ -45,8 +47,8 @@ const PhotoPage = () => {
 
       setPhotos(urls);
     } catch (error: any) {
-     
-        console.log("Something went wrong.");
+      if(error?.response?.status===403)ProModal.onOpen();
+
       
     } finally {
       router.refresh();
