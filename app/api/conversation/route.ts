@@ -5,7 +5,7 @@ import {NextResponse} from "next/server"
 import { checkApiLimit, increseApiLimit } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
 const apiKey=process.env.API_KEY;
-console.log(apiKey);
+
 
 const openai = new OpenAI({
     apiKey:apiKey,

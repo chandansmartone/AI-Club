@@ -10,7 +10,6 @@ export async function GET() {
     try{
         const {userId}= auth();
         const user=await currentUser();
-        console.log("user:",user);
         
         if(!userId||!user){
             return new NextResponse("Unauthorized",{status:401});

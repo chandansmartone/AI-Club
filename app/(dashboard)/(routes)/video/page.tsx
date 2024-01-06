@@ -17,6 +17,7 @@ import { Empty } from "@/components/Empty";
 import { formSchema } from "./constants";
 import { FileAudio } from "lucide-react";
 import { userProModel } from "@/hooks/use-pro-model";
+import toast from "react-hot-toast";
 
 const VideoPage = () => {
   const ProModal=userProModel();
@@ -40,9 +41,13 @@ const VideoPage = () => {
 
       setVideo(response.data[0]);
       form.reset();
-    } catch (error: any) {
-      if(error?.response?.status===403)ProModal.onOpen();
-
+    } catch(error:any){
+      if(error?.response?.status===403)
+      {
+        ProModal.onOpen();
+      }else{
+        toast.error("something went wrong")
+      }
       
     } finally {
       router.refresh();

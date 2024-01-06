@@ -6,6 +6,7 @@ import { Zap } from "lucide-react";
 // import { toast } from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
+import toast from "react-hot-toast";
 
 export const SubscriptionButton = ({
   isPro = false
@@ -19,10 +20,11 @@ export const SubscriptionButton = ({
       setLoading(true);
 
       const response = await axios.get("/api/stripe");
-
+      
       window.location.href = response.data.url;
     } catch (error) {
-      console.log("Something went wrong",error);
+      toast.error("something went wrong")
+
     } finally {
       setLoading(false);
     }

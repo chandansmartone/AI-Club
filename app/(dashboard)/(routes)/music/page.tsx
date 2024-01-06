@@ -16,6 +16,7 @@ import { Empty } from "@/components/Empty";
 
 import {  formSchema } from "./constants";
 import { userProModel } from "@/hooks/use-pro-model";
+import toast from "react-hot-toast";
 
 const MusicPage = () => {
   const ProModal=userProModel();
@@ -36,13 +37,17 @@ const MusicPage = () => {
       setMusic(undefined);
 
       const response = await axios.post('/api/Music', values);
-      console.log(response)
+      
 
       setMusic(response.data);
       form.reset();
-    } catch (error: any) {
-      if(error?.response?.status===403)ProModal.onOpen();
-
+    }catch(error:any){
+      if(error?.response?.status===403)
+      {
+        ProModal.onOpen();
+      }else{
+        toast.error("something went wrong")
+      }
     } finally {
       router.refresh();
     }
