@@ -3,7 +3,6 @@ import { Heading } from "@/components/Heading";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
@@ -17,12 +16,13 @@ import { Empty } from "@/components/Empty";
 import { cn } from "@/lib/utils";
 import { UserAvatar } from "@/components/user-avatar";
 import { BotAvatar } from "@/components/bot-avatar";
+import ReactMarkdown from "react-markdown";
+import { Code2 } from "lucide-react";
 import { userProModel } from "@/hooks/use-pro-model";
 import toast from "react-hot-toast";
 
-
-const ConversationPage = () => {
-  const proModal=userProModel()
+const Code = () => {
+  const ProModal=userProModel();
     const router = useRouter();
     const [messages,setMessages]=useState< OpenAI.Chat.CreateChatCompletionRequestMessage[]>([]);
 
@@ -43,18 +43,19 @@ const ConversationPage = () => {
             
           };
           const newMessage=[...messages,userMessage];
-          const response=await axios.post("api/conversation",{
+          const response=await axios.post("api/code",{
             messages:newMessage,
           });
           setMessages((current)=>[...current,userMessage,response.data]);
           form.reset();
         }catch(error:any){
-            if(error?.response?.status===403)
-            {
-              proModal.onOpen();
-            }else{
-              toast.error("something went wrong")
-            }
+          if(error?.response?.status===403)
+          {
+            ProModal.onOpen();
+          }else{
+            toast.error("something went wrong")
+          }
+            
         }finally{
             router.refresh();
         }
@@ -63,11 +64,11 @@ const ConversationPage = () => {
     return (
     <div>
        <Heading
-        title="Conversation"
-        description="Our most advanced conversation model."
-        icon={MessageSquare}
-        iconColor="text-violet-500"
-        bgColor="bg-violet-500/10"
+        title="Code Generation"
+        description="Generate code using descriptive text."
+        icon={Code2}
+        iconColor="text-green-700"
+        bgColor="bg-green-700/10"
       />
  <div className="px-4 lg:px-8">
         <div>
@@ -127,7 +128,7 @@ const ConversationPage = () => {
             {messages.map((message,index) => (
               <div
               key={`${message.role}-${index}`}
-                className={cn(
+                   className={cn(
                   "p-8 w-full flex items-start gap-x-8 rounded-lg",
                   message.role === "user"
                     ? "bg-white border border-black border-opacity-10"
@@ -135,15 +136,20 @@ const ConversationPage = () => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <div
-                  className="text-sm overflow-hidden leading-7"
-                  dangerouslySetInnerHTML={{
-                    __html:typeof message.content === 'string'
-                      ? message.content.replace(/\n/g, "<br />")
-                      : "",
-                  }}
-                />
-              </div>
+                <ReactMarkdown components={{
+                  pre: ({ node, ...props }) => (
+                    <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
+                      <pre {...props} />
+                    </div>
+                  ),
+                  code: ({ node, ...props }) => (
+                    <code className="bg-black/10 rounded-lg p-1" {...props} />
+                  )
+                }} className="text-sm overflow-hidden leading-7">
+                  {typeof message.content === 'string' ? message.content : ''}
+
+                </ReactMarkdown>
+                </div>
             ))}
           </div>
             </div>
@@ -154,4 +160,4 @@ const ConversationPage = () => {
   )
 }
 
-export default ConversationPage
+export default Code
