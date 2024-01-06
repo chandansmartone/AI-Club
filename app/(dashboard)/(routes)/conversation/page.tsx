@@ -138,7 +138,7 @@ const ConversationPage = () => {
                 <div
                   className="text-sm overflow-hidden leading-7"
                   dangerouslySetInnerHTML={{
-                    __html: message.content
+                    __html:typeof message.content === 'string'
                       ? message.content.replace(/\n/g, "<br />")
                       : "",
                   }}
