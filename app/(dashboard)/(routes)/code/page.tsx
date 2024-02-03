@@ -20,6 +20,9 @@ import ReactMarkdown from "react-markdown";
 import { Code2 } from "lucide-react";
 import { userProModel } from "@/hooks/use-pro-model";
 import toast from "react-hot-toast";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const Code = () => {
   const ProModal=userProModel();
@@ -47,6 +50,8 @@ const Code = () => {
             messages:newMessage,
           });
           setMessages((current)=>[...current,userMessage,response.data]);
+         
+          
           form.reset();
         }catch(error:any){
           if(error?.response?.status===403)
@@ -61,6 +66,46 @@ const Code = () => {
         }
         
       }
+      const [copy,setcopy]=useState("copy")
+      const handleCopy = ( textToCopy:any) => {
+       setcopy("Copied")
+        
+      };
+      const customTheme = {
+        'code[class*="language-"]': {
+          color: '#f8f8f2',
+          background: 'none',
+          fontFamily: 'Inconsolata, Monaco, Consolas, "Courier New", Courier, monospace',
+          fontSize: '16px',
+          textAlign: 'left',
+          whiteSpace: 'pre-wrap',
+          wordSpacing: 'normal',
+          wordBreak: 'normal',
+          lineHeight: '1.5',
+          tabSize: 4,
+          hyphens: 'none',
+        },
+        'pre[class*="language-"]': {
+          color: '#f8f8f2',
+          background: '#282a36',
+          overflow: 'auto',
+          position: 'relative',
+          margin: '0.5em 0',
+          padding: '1.25em',
+          borderRadius: '0.3em',
+        },
+        // Customize the styling for functions, class names, and important parts of the code.
+        '.token.function': {
+          color: '#50fa7b',
+        },
+        '.token.class-name': {
+          color: '#bd93f9',
+        },
+        '.token.keyword, .token.operator': {
+          color: '#ff79c6',
+        },
+      };
+      
     return (
     <div>
        <Heading
@@ -136,19 +181,28 @@ const Code = () => {
                 )}
               >
                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
-                <ReactMarkdown components={{
-                  pre: ({ node, ...props }) => (
-                    <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
-                      <pre {...props} />
-                    </div>
-                  ),
-                  code: ({ node, ...props }) => (
-                    <code className="bg-black/10 rounded-lg p-1" {...props} />
-                  )
-                }} className="text-sm overflow-hidden leading-7">
-                  {typeof message.content === 'string' ? message.content : ''}
-
-                </ReactMarkdown>
+                <ReactMarkdown
+        components={{
+          pre: ({ node, ...props }) => (
+            <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg relative">
+              <CopyToClipboard text={String(String(props.children?.props?.children).trim()).trim()} onCopy={() => handleCopy(String(String(props.children?.props?.children).trim()).trim())}>
+                <button className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-md cursor-pointer">
+                  {copy}
+                </button>
+              </CopyToClipboard>
+              <SyntaxHighlighter language="javascript" style={dracula} customStyle={customTheme}>
+                {String(props.children?.props?.children)}
+              </SyntaxHighlighter>
+            </div>
+          ),
+          code: ({ node, ...props }) => (
+            <code className="bg-black/30 rounded-lg p-1" {...props} />
+          ),
+        }}
+        className="text-sm overflow-hidden leading-7"
+      >
+        {typeof message.content === 'string' ? message.content : ''}
+      </ReactMarkdown>
                 </div>
             ))}
           </div>

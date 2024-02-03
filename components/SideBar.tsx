@@ -17,11 +17,17 @@ const routes=[
     icon:LayoutDashboard,
     href:"/dashboard",
     color:"text-sky-500",
-  },{
+  },
+ {
     label:"Conversation",
     icon:MessageSquare,
     href:"/conversation",
     color:"text-violet-500",
+  }, {
+    label:"Code generation",
+    icon:Code,
+    href:"/code",
+    color:"text-green-700",
   },{
     label:"Image Generation",
     icon:ImageIcon,
@@ -41,11 +47,6 @@ const routes=[
     color:"text-emerald-500",
   },
   {
-    label:"Code generation",
-    icon:Code,
-    href:"/code",
-    color:"text-green-700",
-  },{
     label:"Setting",
     icon:Settings,
     href:"/settings",
