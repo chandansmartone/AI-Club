@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { Heading } from "@/components/Heading";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -50,6 +51,7 @@ const Code = () => {
             messages:newMessage,
           });
           setMessages((current)=>[...current,userMessage,response.data]);
+         
          
           
           form.reset();
@@ -185,13 +187,13 @@ const Code = () => {
         components={{
           pre: ({ node, ...props }) => (
             <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg relative">
-              <CopyToClipboard text={String(String(props.children?.props?.children).trim()).trim()} onCopy={() => handleCopy(String(String(props.children?.props?.children).trim()).trim())}>
+              <CopyToClipboard text={String(String(props.children)).trim()} onCopy={() => handleCopy(String(String(props.children?.props?.children).trim()).trim())}>
                 <button className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-md cursor-pointer">
                   {copy}
                 </button>
               </CopyToClipboard>
-              <SyntaxHighlighter language="javascript" style={dracula} customStyle={customTheme}>
-                {String(props.children?.props?.children)}
+              <SyntaxHighlighter language="javascript" style={dracula} >
+              {React.isValidElement(props.children) ? String(props.children.props?.children) : ''}
               </SyntaxHighlighter>
             </div>
           ),
