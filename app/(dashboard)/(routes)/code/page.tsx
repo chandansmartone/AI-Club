@@ -187,7 +187,7 @@ const Code = () => {
         components={{
           pre: ({ node, ...props }) => (
             <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg relative">
-              <CopyToClipboard text={String(String(props.children)).trim()} onCopy={() => handleCopy(String(String(props.children?.props?.children).trim()).trim())}>
+              <CopyToClipboard text={String(String(props.children)).trim()} onCopy={handleCopy}>
                 <button className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-md cursor-pointer">
                   {copy}
                 </button>
