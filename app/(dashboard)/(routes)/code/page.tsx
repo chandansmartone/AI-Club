@@ -20,7 +20,7 @@ import ReactMarkdown from "react-markdown";
 import { Code2 } from "lucide-react";
 import { userProModel } from "@/hooks/use-pro-model";
 import toast from "react-hot-toast";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import {CopyToClipboard} from "react-copy-to-clipboard"
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
