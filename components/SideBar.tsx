@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Montserrat } from 'next/font/google'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
-import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon } from 'lucide-react'
+import { Code, ImageIcon, LayoutDashboard, MessageSquare, Music, Settings, VideoIcon ,SpeechIcon} from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import FreeCounter from './FreeCounter';
 
@@ -45,6 +45,12 @@ const routes=[
     icon:Music,
     href:"/music",
     color:"text-emerald-500",
+  },
+  {
+    label:"Speech Generation",
+    icon:SpeechIcon,
+    href:"/speech",
+    color:"text-violet-500"
   },
   {
     label:"Setting",

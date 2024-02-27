@@ -6,15 +6,16 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { Music, Send } from "lucide-react";
+import { Music, SpeechIcon } from "lucide-react";
 import { Heading } from "@/components/Heading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Loader } from "@/components/ui/Loader";
 import { Empty } from "@/components/Empty";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import {  formSchema } from "./constants";
+import {  VoiceOption, formSchema } from "./constants";
 import { userProModel } from "@/hooks/use-pro-model";
 import toast from "react-hot-toast";
 
@@ -27,6 +28,8 @@ const MusicPage = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       prompt: "",
+      voice: "alloy",
+      
     }
   });
 
@@ -36,11 +39,17 @@ const MusicPage = () => {
     try {
       setMusic(undefined);
 
-      const response = await axios.post('/api/Music', values);
+      const response = await axios.post('/api/Speech', values);
       
-      console.log(response);
+      const audioBufferData = response.data?.audioBuffer;
+      console.log(audioBufferData);
       
-      setMusic(response.data);
+      const blob = new Blob([Buffer.from(audioBufferData, 'base64')], { type: 'audio/mpeg' });
+
+      // Generate a URL for downloading the audio file
+      const url = URL.createObjectURL(blob);
+      
+      setMusic(url);
       form.reset();
     }catch(error:any){
       if(error?.response?.status===403)
@@ -57,11 +66,11 @@ const MusicPage = () => {
   return ( 
     <div>
       <Heading
-        title="Music Generation"
-        description="Turn your prompt into music."
-        icon={Music}
-        iconColor="text-emerald-500"
-        bgColor="bg-emerald-500/10"
+        title="AI Speech Generation"
+        description="Turn text into lifelike spoken audio."
+        icon={SpeechIcon}
+        iconColor="text-red-500"
+        bgColor="bg-red-500/10"
       />
       <div className="px-4 lg:px-8">
         <Form {...form}>
@@ -83,15 +92,46 @@ const MusicPage = () => {
             <FormField
               name="prompt"
               render={({ field }) => (
-                <FormItem className="col-span-12 lg:col-span-10">
+                <FormItem className="col-span-12 lg:col-span-8">
                   <FormControl className="m-0 p-0">
                     <Input
                       className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
                       disabled={isLoading} 
-                      placeholder="organ, violin and piano" 
+                      placeholder="Type your speech here" 
                       {...field}
                     />
                   </FormControl>
+                  
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="voice"
+              render={({ field }) => (
+                <FormItem className="col-span-12 lg:col-span-2">
+                  <Select 
+                    disabled={isLoading} 
+                    onValueChange={field.onChange} 
+                    value={field.value} 
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue defaultValue={field.value} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {VoiceOption.map((option) => (
+                        <SelectItem 
+                          key={option.value} 
+                          value={option.value}
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />
@@ -106,7 +146,7 @@ const MusicPage = () => {
           </div>
         )}
         {!music && !isLoading && (
-          <Empty label="No music generated." />
+          <Empty label="No speech generated." />
         )}
         {music && (
           <audio controls className="w-full mt-8">
