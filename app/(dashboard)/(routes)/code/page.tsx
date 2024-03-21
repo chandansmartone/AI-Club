@@ -68,11 +68,17 @@ const Code = () => {
         }
         
       }
+     
       const [copy,setcopy]=useState("copy")
+      const [txtcopy,settxtcopy]=useState("")
+
       const handleCopy = ( textToCopy:any) => {
-       setcopy("Copied")
-        
+       
+       settxtcopy(textToCopy.props?.children)
+      
+       return txtcopy
       };
+     
       const customTheme = {
         'code[class*="language-"]': {
           color: '#f8f8f2',
@@ -187,8 +193,8 @@ const Code = () => {
         components={{
           pre: ({ node, ...props }) => (
             <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg relative">
-              <CopyToClipboard text={String(String(props.children)).trim()} onCopy={handleCopy}>
-                <button className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded-md cursor-pointer">
+              <CopyToClipboard text={String(handleCopy(props.children))}  onCopy={()=>setcopy("Copied")}>
+                <button className="absolute top-2 right-2 bg-blue-500 text-white px-2  rounded-md cursor-pointer">
                   {copy}
                 </button>
               </CopyToClipboard>
