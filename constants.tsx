@@ -1,4 +1,4 @@
-import { Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react";
+import { Code, ImageIcon, MessageSquare, Music, VideoIcon,SpeechIcon } from "lucide-react";
 
 export const MAX_FREE_COUNTS = 5;
 
@@ -37,5 +37,12 @@ export const tools = [
     color: "text-green-700",
     bgColor: "bg-green-700/10",
     href: '/code',
+  },
+  {
+    label: 'Text to Speech Generation',
+    icon: SpeechIcon,
+    color: "text-violet-500",
+    bgColor: "bg-violet-700/10",
+    href: '/speech',
   },
 ];
