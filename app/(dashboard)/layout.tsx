@@ -3,6 +3,7 @@ import SideBar from "@/components/SideBar";
 import { getApiLimitCount } from "@/lib/api-limit";
 import { checkSubscription } from "@/lib/subscription";
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const DashBoardLayout= async({
     children
 }:{
@@ -21,6 +22,7 @@ const DashBoardLayout= async({
                 <NavBar/>
 
                 {children}
+                <SpeedInsights/>
             </main>
         </div>
     )
