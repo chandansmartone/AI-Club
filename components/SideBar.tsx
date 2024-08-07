@@ -90,7 +90,7 @@ const SideBar = ({
         />
         </div>
         <h1 className={cn("text-2xl font-bold",montserrt.className )}>
-          Genius
+          Sarvagnani
         </h1>
         </Link>
         <div className="space-y-1">
