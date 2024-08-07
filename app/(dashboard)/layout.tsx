@@ -14,6 +14,7 @@ const DashBoardLayout= async({
     
     return (
         <div className="h-full relative">
+             <SpeedInsights/>
             <Analytics/>
             <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0  bg-gray-900">
                <SideBar isPro={isPro} apiLimitCount={apiLimitCount}/>
@@ -22,7 +23,7 @@ const DashBoardLayout= async({
                 <NavBar/>
 
                 {children}
-                <SpeedInsights/>
+               
             </main>
         </div>
     )

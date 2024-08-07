@@ -38,7 +38,7 @@ export async function POST(
           top_k: 250,
           top_p: 0,
           prompt: prompt,
-          duration: 15,
+          duration: 8,
           temperature: 1,
           continuation: false,
           model_version: "stereo-large",

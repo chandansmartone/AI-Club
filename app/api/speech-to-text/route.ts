@@ -37,7 +37,6 @@ export async function POST(req:Request) {
     if (!freeTrial && !isPro) {
       return new NextResponse("Free trial is expired", { status: 403 });
     }
-
    
 
     const response = await openai.audio.transcriptions.create({
